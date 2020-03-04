@@ -1,0 +1,23 @@
+{
+  "name": "dns-parser",
+  "version": "1.0.0",
+  "description": "DNS Shop Data Parser",
+  "scripts": {
+    "start": "node --max-http-header-size 35000 --max-old-space-size=8192 node_modules/.bin/gulp makeDb"
+  },
+  "keywords": [],
+  "author": "Ilya Kantor",
+  "dependencies": {
+    "@javascriptru/json-db": "github:javascriptru/json-db",
+    "bunyan": "^1.8.12",
+    "cross-env": "^5.2.0",
+    "es6-promise-pool": "*",
+    "faker": "^4.1.0",
+    "fs-extra": "^8.0.1",
+    "gulp": "^4.0.2",
+    "jsdom": "^16.2.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "xml2js": "^0.4.23"
+  }
+}
