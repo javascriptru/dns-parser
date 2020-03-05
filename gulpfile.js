@@ -11,4 +11,4 @@ task('download', require('./tasks/download'));
 task('generateOrders', require('./tasks/generateOrders'));
 task('convertProducts', require('./tasks/convertProducts'));
 
-task('makeDb', series('download', 'generateOrders', 'convertProducts'));
+task('makeDb', series('download', 'convertProducts', 'generateOrders'));

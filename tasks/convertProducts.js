@@ -62,7 +62,7 @@ module.exports = async function() {
       let parent = categories[category.parent];
       let existsParent = db.categories.find(c => c.id == parent.slug);
       if (!existsParent) {
-        console.log("No parent for " + category);
+        console.log("(Maybe not error, just ignored) No parent for", category);
         continue;
       }
 
