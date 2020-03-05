@@ -1,24 +1,12 @@
-# Backend for js advanced course
+# DNS Shop Parser
 
-To run it:
+1. Открыть в Chrome https://www.dns-shop.ru/
+2. Сохранить Save as HAR (Export HAR, стрелка вниз сверху) в `download`.
+3. Запустить `npm start` для скачивания данных в директорию `download` и дальнейшей конвертации в `data/db.json`.
 
-- `npm install` - to install modules,
-- `gulp fixtures` - to generate `data/` json data from Excel files in `original_data/`
-- `gulp server` - to run the server.
+В `download.js` также есть настройки:
 
-URLs:
-
-- `http://localhost:8080/api/rest/products`
-- `http://localhost:8080/api/rest/categories`
-- `http://localhost:8080/api/rest/subcategories`
-- `http://localhost:8080/api/rest/orders`
-
-Parameters:
-
-- `http://localhost:8080/api/rest/products?_start=0&_end=30&_order=desc&_embed=subcategory.category`
-- `/products?_category.name =  _lte=  _gte=  _ne=  _like=`
-- `/products?_start=1&_end=10`
-- `/products?_sort=category.name,id&order=desc,asc`
-- `/products?_embed=category,other`
-- `/categories?_refs=subcategory`
-
+```js
+const LOAD_IMAGES = false; // загружать картинки
+const CONCURRENCY = 3; // параллельно столько запросов (если много - включится защита от ДДОС)
+```
