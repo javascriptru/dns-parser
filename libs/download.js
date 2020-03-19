@@ -14,7 +14,8 @@ const imageRoot = path.resolve(config.downloadRoot, 'image');
 const productRoot = path.resolve(config.downloadRoot, 'product');
 
 const LOAD_IMAGES = false;
-const CONCURRENCY = 1;
+
+const CONCURRENCY = 1; // download that many files simultaneously
 
 process.on('message', async urls => {
   let i = 0;
@@ -201,7 +202,7 @@ function parseBreadcrumb(document) {
 function parseRating(document) {
   let ratingElem = document.querySelector('[itemprop="ratingValue"]');
   if (!ratingElem) return null;
-  return ratingElem.textContent;
+  return +ratingElem.textContent;
 }
 
 function parseGuid(document) {
