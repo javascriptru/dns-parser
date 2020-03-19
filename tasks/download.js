@@ -125,7 +125,7 @@ async function loadUrl(url) {
   );
 
   totalParsed++;
-  if (totalParsed === 500) {
+  if (totalParsed === 1000) {
     console.error("Killed the process, otherwise it grows in memory and becomes slow. Please rerun.");
     process.exit(0);
   }
@@ -228,7 +228,7 @@ function parse(productPage) {
   product.breadcrumb = parseBreadcrumb(document);
 
   product.code = +document.querySelector('[data-product-param="code"]')
-    .innerHTML;
+    .textContent;
   product.price = parsePrice(document);
   product.images = parseImages(document);
 
@@ -265,7 +265,7 @@ function parseCharacteristics(document) {
     let partElem = elem.querySelector(".table-part");
     if (partElem) {
       section = {
-        title: partElem.innerHTML,
+        title: partElem.textContent,
         items: []
       };
       if (elem.classList.contains("hidden")) {
@@ -275,7 +275,7 @@ function parseCharacteristics(document) {
     } else {
       let item = {
         name: elem.querySelector(".dots span").firstChild.data.trim(),
-        value: elem.querySelectorAll("td")[1].innerHTML.trim()
+        value: elem.querySelectorAll("td")[1].textContent.trim()
       };
       if (elem.classList.contains("extended-characteristic")) {
         item.isExtended = true;
@@ -311,7 +311,7 @@ function parseTitle(document) {
 
   let productElem = breadcrumbElems.pop();
 
-  return productElem.querySelector('[itemprop="item"]').innerHTML;
+  return productElem.querySelector('[itemprop="item"]').textContent;
 }
 
 function parseBreadcrumb(document) {
@@ -326,7 +326,7 @@ function parseBreadcrumb(document) {
   for (let elem of breadcrumbElems) {
     breadcrumb.push({
       href: elem.querySelector('[itemprop="item"]').href,
-      name: elem.querySelector('[itemprop="name"]').innerHTML
+      name: elem.querySelector('[itemprop="name"]').textContent
     });
   }
 
