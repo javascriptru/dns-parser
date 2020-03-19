@@ -125,7 +125,8 @@ async function loadUrl(url) {
   );
 
   totalParsed++;
-  if (totalParsed === 200) {
+  if (totalParsed === 500) {
+    console.error("Killed the process, otherwise it grows in memory and becomes slow. Please rerun.");
     process.exit(0);
   }
 }
