@@ -172,6 +172,7 @@ module.exports = async function() {
         source: path.basename(link)
       })),
       price: product.price,
+      rating: product.rating,
       discount:
         product.price > 1000 && faker.random.number({ min: 1, max: 5 }) === 1
           ? Math.floor(product.price / 10)
