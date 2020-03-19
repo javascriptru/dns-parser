@@ -48,14 +48,14 @@ async function run(productsXmlUrl) {
 
   let i = 0;
 
-  while(true) {
+  while(i < urls.length) {
     const forked = fork(path.join(__dirname, '../libs/download.js'), [], {
       stdio: 'inherit'
     });
 
     forked.on('message', url => {
       // in console urls start from index 1 (1...25000 of 25000)
-      console.log(`url ${i+1} of ${urls.length}: ${url}`);
+      // console.log(`url ${i+1} of ${urls.length}: ${url}`);
       i++;
     });
 
@@ -69,10 +69,10 @@ async function run(productsXmlUrl) {
       });
     });
 
-    // console.log("LOOP", i);
-
-    if (i == urls.length - 1) break;
   }
+
+  console.log("OUT");
+  
 
 }
 
