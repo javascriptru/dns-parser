@@ -10,5 +10,6 @@ process.on('uncaughtException', function(err) {
 task('download', require('./tasks/download'));
 task('generateOrders', require('./tasks/generateOrders'));
 task('convertProducts', require('./tasks/convertProducts'));
+task('validate', require('./tasks/validate'));
 
-task('makeDb', series('download', 'convertProducts', 'generateOrders'));
+task('makeDb', series('download', 'convertProducts', 'generateOrders', 'validate'));

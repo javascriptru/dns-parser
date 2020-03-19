@@ -9,6 +9,7 @@
   "author": "Ilya Kantor",
   "dependencies": {
     "@javascriptru/json-db": "github:javascriptru/json-db",
+    "ajv": "^6.12.0",
     "bunyan": "^1.8.12",
     "cross-env": "^5.2.0",
     "es6-promise-pool": "*",

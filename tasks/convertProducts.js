@@ -4,7 +4,7 @@ const faker = require("faker");
 const glob = require("glob");
 const parseCategories = require("../libs/parseCategories");
 const config = require('../config');
-const productRoot = path.resolve(config.downloadRoot, "product");
+const productRoot = path.resolve(config.downloadRoot, "product", "json");
 
 const productFileNames = glob.sync("*.json", { cwd: productRoot });
 
@@ -166,6 +166,7 @@ module.exports = async function() {
       quantity: faker.random.number({ min: 1, max: 100 }),
       subcategory: subcategory.id,
       status: faker.random.number({ min: 1, max: 10 }) === 10 ? 0 : 1,
+      characteristics: product.characteristics,
       images: product.images.map(link => ({
         url: link,
         source: path.basename(link)

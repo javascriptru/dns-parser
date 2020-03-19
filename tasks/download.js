@@ -16,8 +16,11 @@ const config = require('../config');
 const imageRoot = path.resolve(config.downloadRoot, "image");
 const productRoot = path.resolve(config.downloadRoot, "product");
 
+fs.ensureDirSync(`${productRoot}/json`);
+fs.ensureDirSync(`${productRoot}/html`);
 // require('request-debug')(requestPure);
 
+let totalParsed = 0;
 
 let files = [
   "https://www.dns-shop.ru/products1.xml",
@@ -28,7 +31,7 @@ let files = [
 ];
 
 const LOAD_IMAGES = false;
-const CONCURRENCY = 3;
+const CONCURRENCY = 1;
 
 async function run(productsXmlUrl) {
   console.log("RUN", productsXmlUrl);
@@ -69,19 +72,20 @@ async function loadUrl(url) {
     .split("/")
     .filter(Boolean)
     .pop();
-  if (fs.existsSync(`${productRoot}/${id}.json`)) return;
+  if (fs.existsSync(`${productRoot}/json/${id}.json`)) return;
 
   let productPage;
-  if (fs.existsSync(`${productRoot}/${id}.html`)) {
-    productPage = fs.readFileSync(`${productRoot}/${id}.html`, {
+  if (fs.existsSync(`${productRoot}/html/${id}.html`)) {
+    productPage = fs.readFileSync(`${productRoot}/html/${id}.html`, {
       encoding: "utf-8"
     });
+    if (productPage == "null") return; // no such product
   } else {
     productPage = await fetchUrl({ url });
-    fs.writeFileSync(`${productRoot}/${id}.html`, productPage);
+    fs.writeFileSync(`${productRoot}/html/${id}.html`, productPage);
 
     if (productPage === null) {
-      fs.writeFileSync(`${productRoot}/${id}.json`, JSON.stringify(null));
+      fs.writeFileSync(`${productRoot}/json/${id}.json`, JSON.stringify(null));
       return; // no such product
     }
   }
@@ -116,9 +120,14 @@ async function loadUrl(url) {
   }
 
   fs.writeFileSync(
-    `${productRoot}/${id}.json`,
+    `${productRoot}/json/${id}.json`,
     JSON.stringify(product, null, 2)
   );
+
+  totalParsed++;
+  if (totalParsed === 200) {
+    process.exit(0);
+  }
 }
 
 // loads url, retries in case of timeout
@@ -293,7 +302,7 @@ function parseTitle(document) {
   let breadcrumbElem = document.querySelector(
     '[itemscope="http://schema.org/BreadcrumbList"]'
   );
-  // console.log(document.documentElement.innerHTML)
+  //console.log(document.documentElement.innerHTML)
   let breadcrumbElems = breadcrumbElem.querySelectorAll(
     '[itemprop = "itemListElement"]'
   );
