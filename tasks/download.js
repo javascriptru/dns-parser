@@ -55,7 +55,7 @@ async function run(productsXmlUrl) {
 
     forked.on('message', url => {
       // in console urls start from index 1 (1...25000 of 25000)
-      // console.log(`url ${i+1} of ${urls.length}: ${url}`);
+      console.log(`url ${i+1} of ${urls.length}: ${url}`);
       i++;
     });
 
@@ -70,9 +70,6 @@ async function run(productsXmlUrl) {
     });
 
   }
-
-  console.log("OUT");
-  
 
 }
 
