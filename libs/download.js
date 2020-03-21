@@ -13,7 +13,7 @@ const config = require('../config');
 const imageRoot = path.resolve(config.downloadRoot, 'image');
 const productRoot = path.resolve(config.downloadRoot, 'product');
 
-const LOAD_IMAGES = false;
+const LOAD_IMAGES = true;
 
 const CONCURRENCY = 1; // download that many files simultaneously
 
@@ -77,13 +77,17 @@ async function loadUrl(url) {
 
       console.log(url);
 
-      let job = await fetchUrl({
+      let job = fetchUrl({
         url,
         encoding: null
       }).then(function(res) {
-        if (res) {
-          const buffer = Buffer.from(res, 'utf8');
-          fs.writeFileSync(`${imageRoot}/${filename}`, buffer);
+        if (res && res.length > 0) {
+          fs.writeFileSync(`${imageRoot}/${filename}`, res);
+        } else {
+          // does that ever happen?
+          console.error("BAD IMAGE URL", url);
+          // remove invalid image url
+          product.images.splice(product.images.indexOf(url), 1);
         }
       });
       jobs.push(job);

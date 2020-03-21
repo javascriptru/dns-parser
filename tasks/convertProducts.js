@@ -5,6 +5,7 @@ const glob = require("glob");
 const parseCategories = require("../libs/parseCategories");
 const config = require('../config');
 const productRoot = path.resolve(config.downloadRoot, "product", "json");
+const imagesRoot = path.resolve(config.downloadRoot, "image");
 
 const productFileNames = glob.sync("*.json", { cwd: productRoot });
 
@@ -112,7 +113,7 @@ module.exports = async function() {
     }
     // console.log(product);
 
-    if (!product.price || !product.description) continue;
+    if (!product.price || !product.description || !product.images || product.images.length == 0) continue;
 
     if (productById[product.id]) {
       console.error("DUPLICATE ID", product);
@@ -159,6 +160,12 @@ module.exports = async function() {
       continue;
     }
 
+    for(let image in product.images) {
+      if (!fs.existsSync(path.join(imagesRoot, path.basename(image)))) {
+        continue; // ignore this product: image broken
+      }
+    }
+
     db.products.push({
       id: product.id,
       title: product.title,
@@ -171,7 +178,7 @@ module.exports = async function() {
         url: link,
         source: path.basename(link)
       })),
-      price: product.price,
+      price: +(product.price / 70).toFixed(1),
       rating: product.rating,
       discount:
         product.price > 1000 && faker.random.number({ min: 1, max: 5 }) === 1

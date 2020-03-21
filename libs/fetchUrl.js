@@ -31,8 +31,8 @@ module.exports = async function fetchUrl(options = {}) {
           const window = dom.window;
 
           options.url = window.redir;
-          resolve(fetchUrl(options));
-
+          resolve(fetchUrl(options)); // not sure if it works well
+          /*
           console.log('REDIR', window.redir, 'COOKIE', window.cook, 'BODY', body);
           const document = window.document;
 
@@ -41,7 +41,7 @@ module.exports = async function fetchUrl(options = {}) {
           console.log('COOKIE', document.cookie);
           process.exit(1);
 
-          return;
+          return;*/
         }
         if (error) {
           if (error.code == 'ESOCKETTIMEDOUT') {
@@ -54,13 +54,14 @@ module.exports = async function fetchUrl(options = {}) {
             reject(error);
           }
         } else {
-          if (response.statusCode == 410 || response.statusCode == 500) {
-            // not such product any more
+          if (response.statusCode == 410 || response.statusCode == 404 || response.statusCode == 500) {
+            // not such product or image any more
             resolve(null);
           } else if (response.statusCode != 200) {
-            console.error('BAD RESPONSE', error, response, body);
+            console.error('BAD RESPONSE', error, response.getHeaders(), body, String(body));
             process.exit(1);
             throw new Error('BAD RESPONSE');
+
           } else {
             resolve(body);
           }
