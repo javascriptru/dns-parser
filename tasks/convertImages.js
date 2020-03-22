@@ -28,6 +28,10 @@ module.exports = async function() {
       let filename = product.id + '-' + i + '.jpg';
       let imageConvertedPath = path.resolve(imagesConvertedRoot, filename);
 
+      if (!fs.existsSync(imagePath)) {
+        throw new Error(`No source image ${filename}: run convertProducts first, maybe db.json has converted paths`);
+      }
+
       if (!fs.existsSync(imageConvertedPath)) {
         jobs.push(exec(`convert ${imagePath} -resize 1000x1000 ${imageConvertedPath}`, {
           encoding: 'utf-8',

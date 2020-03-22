@@ -168,9 +168,15 @@ module.exports = async function() {
 
     let price = Math.round(product.price / 70); // to USD
 
-    if (price < 2) {
-      continue; // ignore product
+    if (price < 3) {
+      continue; // ignore too cheap product (no real reason, but we round prices)
     }
+
+    if (product.images.length > 9) {
+      product.images.length = 9; // no real reason, maybe some ui looks better
+    }
+
+    console.log(product.id);
 
     db.products.push({
       id: product.id,
