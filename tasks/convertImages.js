@@ -33,7 +33,7 @@ module.exports = async function() {
         stdio: 'inherit'
       }));
       product.images[i].source = filename;
-      product.images[i].url = `https://product-image.js.cx/${filename}`;
+      product.images[i].url = `https://shop-image.js.cx/${filename}`;
     }
     await Promise.all(jobs);
   }
