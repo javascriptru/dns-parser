@@ -166,6 +166,12 @@ module.exports = async function() {
       }
     }
 
+    let price = Math.round(product.price / 70); // to USD
+
+    if (price < 2) {
+      continue; // ignore product
+    }
+
     db.products.push({
       id: product.id,
       title: product.title,
@@ -178,11 +184,11 @@ module.exports = async function() {
         url: link,
         source: path.basename(link)
       })),
-      price: +(product.price / 70).toFixed(1),
+      price: price,
       rating: product.rating,
       discount:
-        product.price > 1000 && faker.random.number({ min: 1, max: 5 }) === 1
-          ? Math.floor(product.price / 10)
+        product.price > 100 && faker.random.number({ min: 1, max: 5 }) === 1
+          ? Math.floor(price / 10)
           : 0
     });
 

@@ -28,12 +28,14 @@ module.exports = async function() {
       let filename = product.id + '-' + i + '.jpg';
       let imageConvertedPath = path.resolve(imagesConvertedRoot, filename);
 
-      jobs.push(exec(`convert ${imagePath} -resize 1000x1000 ${imageConvertedPath}`, {
-        encoding: 'utf-8',
-        stdio: 'inherit'
-      }));
+      if (!fs.existsSync(imageConvertedPath)) {
+        jobs.push(exec(`convert ${imagePath} -resize 1000x1000 ${imageConvertedPath}`, {
+          encoding: 'utf-8',
+          stdio: 'inherit'
+        }));
+      }
       product.images[i].source = filename;
-      product.images[i].url = `https://shop-image.js.cx/${filename}?h=50`;
+      product.images[i].url = `https://shop-image.js.cx/${filename}`;
     }
     await Promise.all(jobs);
   }
