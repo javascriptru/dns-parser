@@ -14,6 +14,8 @@ function graph(x) {
 
 faker.seed(2);
 
+
+// generate orders from 90 days ago till 2 years after today
 module.exports = async function() {
   db.load();
 
@@ -23,7 +25,11 @@ module.exports = async function() {
   date.setHours(9, 0, 0, 0);
   let dateCounter = 1;
   let id = 1;
-  while (date < Date.now()) {
+
+  let endDate = new Date();
+  endDate.setFullYear(endDate.getFullYear() + 2);
+  
+  while (date < endDate) {
     let ordersCount = Math.round(graph(dateCounter));
     for (let j = 0; j < ordersCount; j++) {
       let productsCount = faker.random.number({min: 1, max: 4});
@@ -63,6 +69,8 @@ module.exports = async function() {
     date.setDate(date.getDate() + 1);
     dateCounter++;
   }
+
+  console.log(db.get('orders').length)
 
   db.save();
 };
