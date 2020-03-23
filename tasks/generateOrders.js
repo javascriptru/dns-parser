@@ -50,9 +50,7 @@ module.exports = async function() {
         order.user = takeUserFromOrder.user;
         order.phone = takeUserFromOrder.phone;
       } else {
-        let genders = ['female', 'male'];
-        let gender = faker.random.arrayElement(genders);
-
+        let gender = faker.random.number({ min: 0, max: 1 });
         order.user = faker.name.firstName(gender) + ' ' + faker.name.lastName(gender);
         order.phone = faker.phone.phoneNumber();
       }
