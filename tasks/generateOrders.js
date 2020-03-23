@@ -47,7 +47,8 @@ module.exports = async function() {
         products,
         totalCost,
         createdAt: new Date(date),
-        delivery:  (date > Date.now() - 7 * 86400) ? 'В пути' : 'Доставлено'
+        delivery: faker.random.number({ min: 1, max: 5 }) === 1 ? 'В пути' : 'Доставлено'
+        // delivery:  (date > Date.now() - 10 * 86400) ? 'В пути' : 'Доставлено'
       };
 
       // 20% probability of an existing user to make the order again

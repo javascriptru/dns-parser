@@ -16,9 +16,6 @@ const URLS_PER_FORK = 300;
 
 const CONCURRENT = true; // process all files in parallel
 
-fs.ensureDirSync(`${productRoot}/json`);
-fs.ensureDirSync(`${productRoot}/html`);
-fs.ensureDirSync(imageRoot);
 // require('request-debug')(requestPure);
 
 let files = [
@@ -30,6 +27,7 @@ let files = [
 ];
 
 async function run(productsXmlUrl) {
+    
   console.log("RUN", productsXmlUrl);
 
   let xml;
@@ -76,6 +74,11 @@ async function run(productsXmlUrl) {
 }
 
 module.exports = async function() {
+
+  fs.ensureDirSync(`${productRoot}/json`);
+  fs.ensureDirSync(`${productRoot}/html`);
+  fs.ensureDirSync(imageRoot);
+  
   if (CONCURRENT) {
     await Promise.all(files.map(file => run(file)));
   } else {

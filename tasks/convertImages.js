@@ -9,9 +9,9 @@ const dbPath = path.join(__dirname, '../data/db.json');
 const imagesRoot = path.resolve(config.downloadRoot, 'image');
 const imagesConvertedRoot = path.resolve(config.downloadRoot, 'image-converted');
 
-fs.ensureDirSync(imagesConvertedRoot);
-
 module.exports = async function() {
+
+  fs.ensureDirSync(imagesConvertedRoot);
 
   fs.emptyDirSync(imagesConvertedRoot);
 
