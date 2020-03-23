@@ -41,7 +41,7 @@ module.exports = async function() {
         products,
         totalCost,
         createdAt: new Date(date),
-        delivery:  (date > Date.now() - 7 * 86400) ? 'В пути' : 'Доставлен'
+        delivery:  (date > Date.now() - 7 * 86400) ? 'В пути' : 'Доставлено'
       };
 
       // 20% probability of an existing user to make the order again
