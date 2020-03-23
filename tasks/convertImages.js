@@ -10,9 +10,10 @@ const imagesRoot = path.resolve(config.downloadRoot, 'image');
 const imagesConvertedRoot = path.resolve(config.downloadRoot, 'image-converted');
 
 fs.ensureDirSync(imagesConvertedRoot);
-fs.emptyDirSync(imagesConvertedRoot);
 
 module.exports = async function() {
+
+  fs.emptyDirSync(imagesConvertedRoot);
 
   let db = require(dbPath);
 
