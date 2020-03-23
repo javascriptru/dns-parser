@@ -12,7 +12,7 @@ function graph(x) {
   return ((Math.sin(x * Math.PI / 7) + 1) + x / 10) * 2;
 }
 
-faker.seed(1);
+faker.seed(2);
 
 module.exports = async function() {
   db.load();
@@ -41,7 +41,7 @@ module.exports = async function() {
         products,
         totalCost,
         createdAt: new Date(date),
-        delivery:  (date > Date.now() - 7 * 86400) ? 'In transit' : 'Delivered'
+        delivery:  (date > Date.now() - 7 * 86400) ? 'В пути' : 'Доставлен'
       };
 
       // 20% probability of an existing user to make the order again
@@ -50,7 +50,10 @@ module.exports = async function() {
         order.user = takeUserFromOrder.user;
         order.phone = takeUserFromOrder.phone;
       } else {
-        order.user = faker.name.firstName() + ' ' + faker.name.lastName();
+        let genders = ['female', 'male'];
+        let gender = faker.random.arrayElement(genders);
+
+        order.user = faker.name.firstName(gender) + ' ' + faker.name.lastName(gender);
         order.phone = faker.phone.phoneNumber();
       }
 

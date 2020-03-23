@@ -10,6 +10,7 @@ const imagesRoot = path.resolve(config.downloadRoot, 'image');
 const imagesConvertedRoot = path.resolve(config.downloadRoot, 'image-converted');
 
 fs.ensureDirSync(imagesConvertedRoot);
+fs.emptyDirSync(imagesConvertedRoot);
 
 module.exports = async function() {
 
@@ -32,12 +33,10 @@ module.exports = async function() {
         throw new Error(`No source image ${filename}: run convertProducts first, maybe db.json has converted paths`);
       }
 
-      if (!fs.existsSync(imageConvertedPath)) {
-        jobs.push(exec(`convert ${imagePath} -resize 1000x1000 ${imageConvertedPath}`, {
-          encoding: 'utf-8',
-          stdio: 'inherit'
-        }));
-      }
+      jobs.push(exec(`convert ${imagePath} -resize 1000x1000 ${imageConvertedPath}`, {
+        encoding: 'utf-8',
+        stdio: 'inherit'
+      }));
       product.images[i].source = filename;
       product.images[i].url = `https://shop-image.js.cx/${filename}`;
     }
