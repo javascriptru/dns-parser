@@ -182,6 +182,7 @@ module.exports = async function() {
       id: product.id,
       title: product.title,
       description: product.description,
+      brand: product.brand,
       quantity: faker.random.number({ min: 1, max: 100 }),
       subcategory: subcategory.id,
       status: faker.random.number({ min: 1, max: 10 }) === 10 ? 0 : 1,

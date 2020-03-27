@@ -108,6 +108,10 @@ function parse(productPage) {
   product.title = parseTitle(document);
   product.breadcrumb = parseBreadcrumb(document);
 
+  let brandElem = document.querySelector('[data-product-param="brand"]');
+  if (brandElem) {
+    product.brand = brandElem.dataset.value;
+  }
   product.code = +document.querySelector('[data-product-param="code"]').textContent;
   product.price = parsePrice(document);
   product.images = parseImages(document);
