@@ -231,6 +231,8 @@ module.exports = async function() {
     // break;
   }
 
+  console.log("Products total", db.products.length);
+
   fs.writeFileSync(`${config.dataRoot}/db.json`, JSON.stringify(db, null, 2));
 
 };
