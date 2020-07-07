@@ -9,6 +9,13 @@ const imagesRoot = path.resolve(config.downloadRoot, "image");
 
 const productFileNames = glob.sync("*.json", { cwd: productRoot });
 
+const PRODUCTS_PER_CATEGORY_LIMIT_ENABLED = false;
+
+const PRODUCTS_PER_CATEGORY_RANGE = {
+  min: 8,
+  max: 24
+}; 
+
 module.exports = async function() {
   {
     // load products in random order, not sorted order, to avoid groups of similar products
@@ -149,10 +156,8 @@ module.exports = async function() {
     }
 
     if (!productsByCategoryMax[subcategoryId]) {
-      productsByCategoryMax[subcategoryId] = faker.random.number({
-        min: 8,
-        max: 24
-      });
+      productsByCategoryMax[subcategoryId] = PRODUCTS_PER_CATEGORY_LIMIT_ENABLED ?
+        faker.random.number(PRODUCTS_PER_CATEGORY_RANGE) : Infinity;
     }
 
     if (subcategory.count == productsByCategoryMax[subcategoryId]) {
@@ -176,7 +181,7 @@ module.exports = async function() {
       product.images.length = 9; // no real reason, maybe some ui looks better
     }
 
-    console.log(product.id);
+    // console.log(product.id);
 
     db.products.push({
       id: product.id,
